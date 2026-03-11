@@ -1,0 +1,9 @@
+{
+  "code-runner.fileDirectoryAsCwd": false,
+  "code-runner.executorMap": {
+    "java": "$workspaceRoot/run-java.sh $fullFileName"
+  },
+  "cSpell.words": [
+    "craftinginterpreters"
+  ]
+}
