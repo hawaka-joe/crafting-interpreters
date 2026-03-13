@@ -6,7 +6,8 @@ import java.util.List;
 
 class Parser {
 
-    private static class ParseError extends RuntimeException {}
+    private static class ParseError extends RuntimeException {
+    }
 
     private final List<Token> tokens;
     private int current = 0;
@@ -17,9 +18,9 @@ class Parser {
 
     Expr parse() {
         try {
-        return expression();
+            return expression();
         } catch (ParseError error) {
-        return null;
+            return null;
         }
     }
 
@@ -44,7 +45,7 @@ class Parser {
 
         if (match(BANG_EQUAL, EQUAL_EQUAL)) {
             Token operator = previous();
-            Expr right = equality();   // 关键变化
+            Expr right = equality(); // 关键变化
             expr = new Expr.Binary(expr, operator, right);
         }
 
@@ -67,9 +68,9 @@ class Parser {
         Expr expr = factor();
 
         while (match(MINUS, PLUS)) {
-        Token operator = previous();
-        Expr right = factor();
-        expr = new Expr.Binary(expr, operator, right);
+            Token operator = previous();
+            Expr right = factor();
+            expr = new Expr.Binary(expr, operator, right);
         }
 
         return expr;
@@ -79,9 +80,9 @@ class Parser {
         Expr expr = unary();
 
         while (match(SLASH, STAR)) {
-        Token operator = previous();
-        Expr right = unary();
-        expr = new Expr.Binary(expr, operator, right);
+            Token operator = previous();
+            Expr right = unary();
+            expr = new Expr.Binary(expr, operator, right);
         }
 
         return expr;
@@ -89,21 +90,24 @@ class Parser {
 
     private Expr unary() {
         if (match(BANG, MINUS)) {
-        Token operator = previous();
-        Expr right = unary();
-        return new Expr.Unary(operator, right);
+            Token operator = previous();
+            Expr right = unary();
+            return new Expr.Unary(operator, right);
         }
 
         return primary();
     }
 
     private Expr primary() {
-        if (match(FALSE)) return new Expr.Literal(false);
-        if (match(TRUE)) return new Expr.Literal(true);
-        if (match(NIL)) return new Expr.Literal(null);
+        if (match(FALSE))
+            return new Expr.Literal(false);
+        if (match(TRUE))
+            return new Expr.Literal(true);
+        if (match(NIL))
+            return new Expr.Literal(null);
 
         if (match(NUMBER, STRING)) {
-        return new Expr.Literal(previous().literal);
+            return new Expr.Literal(previous().literal);
         }
 
         if (match(LEFT_PAREN)) {
@@ -115,7 +119,8 @@ class Parser {
     }
 
     private Token consume(TokenType type, String message) {
-        if (check(type)) return advance();
+        if (check(type))
+            return advance();
 
         throw error(peek(), message);
     }
@@ -129,7 +134,8 @@ class Parser {
         advance();
 
         while (!isAtEnd()) {
-            if (previous().type == SEMICOLON) return;
+            if (previous().type == SEMICOLON)
+                return;
 
             switch (peek().type) {
                 case CLASS:
@@ -140,7 +146,7 @@ class Parser {
                 case WHILE:
                 case PRINT:
                 case RETURN:
-                return;
+                    return;
             }
 
             advance();
@@ -158,12 +164,14 @@ class Parser {
     }
 
     private boolean check(TokenType type) {
-        if (isAtEnd()) return false;
+        if (isAtEnd())
+            return false;
         return peek().type == type;
     }
 
     private Token advance() {
-        if (!isAtEnd()) current++;
+        if (!isAtEnd())
+            current++;
         return previous();
     }
 

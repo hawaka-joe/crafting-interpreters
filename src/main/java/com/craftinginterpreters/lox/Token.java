@@ -2,7 +2,9 @@ package com.craftinginterpreters.lox;
 
 class Token {
   final TokenType type;
+  // 源代码中的原始文本（词素）
   final String lexeme;
+  // 解析后的值（语义值）
   final Object literal;
   final int line; 
 
